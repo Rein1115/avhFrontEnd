@@ -1,0 +1,86 @@
+
+.reportRow{
+    display: none;
+} 
+
+
+@media print {
+
+    .no-print , .container-fluid, #reportContainer, .content-inner {
+        display: none;
+        background-color: white !important;
+
+    } 
+
+    .main-content{
+        background-color: white !important;
+
+    }
+
+    .sticky-footer{
+        display: none;
+    }
+    
+
+    .sidebar,    .btn-setting, .iq-banner, .iq-navbar-header, .footer, .right-panel, .card-body {
+        display: none;
+    }
+
+
+     .reportRow{
+        display: block;
+        margin: 20px auto;
+            width: 80%;
+            background-color: white !important;
+    } 
+
+
+        /* Reset default styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background-color: white !important;
+        }
+
+        /* Customize receipt layout */
+        .printReceipt {
+            width: 250px; /* Adjust width as needed */
+            margin: 0 auto;
+            padding: 10px;
+            border: 1px solid #000;
+             font-family: Courier, monospace !important; 
+        }
+
+        .printReceipt h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .printReceipt .receiptItem {
+            margin-bottom: 10px;
+        }
+
+        .printReceipt .itemLabel {
+            font-weight: bold;
+            font-size: xx-small;
+        }
+
+        .printReceipt .itemValue {
+            float: right;
+        }
+
+        .printReceipt .lineBreak {
+            margin: 0 auto;
+            margin-bottom: 10px;
+        }
+
+        /* Hide unnecessary elements */
+        /* #transNo {
+            display: block;
+        } */
+
+
+    
+
+}
