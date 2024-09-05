@@ -6,11 +6,20 @@ $('#loginForm').submit(function(event) {
         password: $('input[name="password"]').val(),
     };
 
-    console.log(formData);
+    Swal.fire({
+        title: 'Logging in...',
+        text: 'Please wait',
+        icon: 'info',
+        allowOutsideClick: false,
+        showConfirmButton: false,
+        willOpen: () => {
+            Swal.showLoading();
+        }
+    });
 
     axios.post('https://avhapi.onrender.com/api/login', formData)
         .then(function(response) {
-            console.log(response.data);
+            Swal.close();
             // Store the token for future use
             localStorage.setItem('authToken', response.data.token);
             // Show success message using SweetAlert

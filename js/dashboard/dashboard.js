@@ -7,6 +7,16 @@ $(document).ready(function() {
             window.location.href = '404.html';
             return;
         }
+        Swal.fire({
+            title: 'Loading...',
+            text: 'Please wait',
+            icon: 'info',
+            allowOutsideClick: false,
+            showConfirmButton: false,
+            willOpen: () => {
+                Swal.showLoading();
+            }
+        });
 
     axios.get('https://avhapi.onrender.com/api/dashboard', {
         headers:{
@@ -15,6 +25,7 @@ $(document).ready(function() {
         }
     }) 
     .then(function(response) {
+        Swal.close();
         // console.log(response);
         var data = response.data;
         var totalSales = parseFloat(data.totalSales);
