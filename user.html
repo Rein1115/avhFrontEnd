@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Customers</title>
+    <title>Dashboard</title>
 
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -20,20 +20,15 @@
     <!-- Custom styles for this template-->
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
 
-     <!-- Custom styles for this page -->
-     <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
-
-     <!-- Axios CDN -->
-     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-
-     <!-- alert -->
+    <!-- alert -->
     <link href="css/alert.css" rel="stylesheet">
 
+    <!-- Axios CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
-    <!-- Sweetalerts -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
+    
 
 </head>
 
@@ -107,35 +102,15 @@
             <div id="content">
 
                 <!-- Topbar -->
-                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
-                    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#addCustomerModal">
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="29"
-                            height="20"
-                            viewBox="0 -1 24 18"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            class="feather feather-user"
-                        >
-                            <path d="M20.83 18.36A8 8 0 0 0 12 8a8 8 0 0 0-8.83 10.36"></path>
-                            <line x1="12" y1="12" x2="12" y2="12"></line>
-                            <circle cx="12" cy="4" r="4"></circle>
-                        </svg>
+                <nav class="navbar navbar-expand navbar-light bg-gradient-black topbar mb-4 static-top shadow">
 
-                    </button>
                     <!-- Sidebar Toggle (Topbar) -->
                     <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
                         <i class="fa fa-bars"></i>
                     </button>
-                    &nbsp;&nbsp;
-                    <span class="mr-2 d-none d-lg-inline text-gray-600 small">Add Customer</span>
+
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
-
                         <!-- Nav Item - Alerts -->
                         <li class="nav-item dropdown no-arrow mx-1">
                             <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button"
@@ -164,7 +139,6 @@
                                 <!-- <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a> -->
                             </div>
                         </li>
-
                         <div class="topbar-divider d-none d-sm-block"></div>
 
                         <!-- Nav Item - User Information -->
@@ -176,7 +150,6 @@
                                     src="img/avh.png">
                             </a>
                         </li> -->
-
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -205,94 +178,47 @@
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
-                <div class="container-fluid">
-                    <div class="card shadow mb-4">
-                        <div class="card-header py-3">
-                            <h4 class="m-0 font-weight-bold text-primary text-center">Customer List</h4>
-                        </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                    <thead>
-                                        <tr>
-                                            <th>Name</th>
-                                            <th>Contact #</th>
-                                            <th>Address</th>
-                                            <th>Actions</th>
-                                        </tr>
-                                    </thead>
-                                    
-                                    <tbody>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
+                <div class="container-fluid" id="parent">
 
-                    <div class="modal fade" id="addCustomerModal" tabindex="-1" aria-labelledby="addCustomerModalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="addCustomerModalLabel">Add Customer</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <form id="addCustomerForm">
-                                        <div class="form-group">
-                                            <label for="custName">Name</label>
-                                            <input type="text" class="form-control" id="custName" required>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="custCon">Contact #</label>
-                                            <input type="text" class="form-control" id="custCon" required>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="custAdr">Address</label>
-                                            <input type="text" class="form-control" id="custAdr" required>
-                                        </div>
-                                    </form>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="submit" class="btn btn-primary" id="addCustomer">Save</button>
+                    <!-- Page Heading -->
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4 text-center">
+                        <h1 class="h3 mb-0 text-primary">User Details</h1>
+                    </div>
+                    <div class="container">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-lg">
+                                        <form id="userDetails" enctype="multipart/form-data"> 
+                                            <div class="form-group">
+                                                <label for="name">Fullname</label>
+                                                <input type="text" class="form-control form-control-user" id="inputName"
+                                                    placeholder="Fullname" name="name">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="email">Email</label>
+                                                <input type="email" class="form-control form-control-user" id="exampleInputEmail"
+                                                    placeholder="Email Address" name="email">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="contact">Contact #</label>
+                                                <input type="text" class="form-control form-control-user" id="inputContact"
+                                                    placeholder="Contact Number" name="contact">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="profileImage">Profile Image</label>
+                                                <input type="file" class="form-control form-control-user" id="profileImage" accept=".png, .jpg">
+                                                <input type="hidden" name="profile_picture" id="profile_picture">
+                                            </div>                                            
+                                            <button type="submit" class="btn btn-primary" id="btnUpdate">Update</button>
+                                        </form>                                        
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-
-                    <div class="modal fade" id="editCustomerModal" tabindex="-1" aria-labelledby="editCustomerModalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="editCustomerModalLabel">Edit Customer</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <form id="editCustomerForm">
-                                        <div class="form-group">
-                                            <label for="custName">Name</label>
-                                            <input type="text" class="form-control" id="EditCustName" required>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="custCon">Contact #</label>
-                                            <input type="text" class="form-control" id="EditCustCon" required>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="custAdr">Address</label>
-                                            <input type="text" class="form-control" id="EditCustAdr" required>
-                                        </div>
-                                    </form>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="submit" class="btn btn-primary" id="editCustomer">Save</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                       
 
                 </div>
                 <!-- /.container-fluid -->
@@ -304,7 +230,7 @@
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; Inventory Management</span> | <span>Credits to SB-Admin2</span>
+                        <span>Copyright &copy; Puff Station 2020</span>
                     </div>
                 </div>
             </footer>
@@ -335,7 +261,7 @@
                 <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
+                    <button class="btn btn-primary" id="logoutConf">Logout</button>
                 </div>
             </div>
         </div>
@@ -351,20 +277,8 @@
     <!-- Custom scripts for all pages-->
     <script src="js/sb-admin-2.min.js"></script>
 
-    <!-- Page level plugins -->
-    <script src="vendor/datatables/jquery.dataTables.min.js"></script>
-    <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
-
-    <!-- Page level custom scripts -->
-    <script src="js/demo/datatables-demo.js"></script>
-
-    <!-- Customer JS -->
-    <script src="js/customer/customer.js"></script>
-
-    <script src="js/dashboard/dashboard.js"></script>
-
     <!-- User details script -->
-    <script src="js/user/userdetails.js"></script>
+     <script src="js/user/userdetails.js"></script>
 
 </body>
 

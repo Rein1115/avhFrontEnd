@@ -1,9 +1,19 @@
 $(document).ready(function() {
+    var token = localStorage.getItem('authToken');
+            if (!token) {
+                window.location.href = '404.html';
+                return;
+            }
     var table = $('#dataTable').DataTable({
         processing: true,
         serverSide: false, // Set to false since we are handling the data ourselves
         ajax: function(data, callback, settings) {
-            axios.get('http://127.0.0.1:8000/api/orders')
+            axios.get('https://avhapi.onrender.com/api/orders', {
+                headers:{
+                    'Authorization' : 'Bearer '+ token,
+                    'Accept'  : 'application/json'
+                  }
+            })
                 .then(function(response) {
                     // Log the API response
                     console.log("API response:", response.data);
@@ -74,8 +84,12 @@ $(document).ready(function() {
     }
 
     $.ajax({
-        url: 'http://127.0.0.1:8000/api/brands', 
+        url: 'https://avhapi.onrender.com/api/brands', 
         type: 'GET',
+        headers: {
+            'Authorization' : 'Bearer '+ token,
+            'Accept'  : 'application/json'
+        },  // Include your token here in the Authorization header.
         success: function(response) {
             console.log(response);
 
@@ -119,7 +133,12 @@ $(document).ready(function() {
         .then((willSave) => {
             if(willSave){
                 console.log(formData);
-                axios.post('http://127.0.0.1:8000/api/orders', formData)
+                axios.post('https://avhapi.onrender.com/api/orders', formData, {
+                    headers:{
+                        'Authorization' : 'Bearer '+ token,
+                        'Accept'  : 'application/json'
+                      }
+                })
                 .then(function (response) {
                     console.log(response);
                     swal({
@@ -166,7 +185,12 @@ $(document).ready(function() {
         var id = $(this).data('id');
         console.log(id);
 
-        axios.get('http://127.0.0.1:8000/api/orders/' + id)
+        axios.get('https://avhapi.onrender.com/api/orders/' + id , {
+            headers:{
+                'Authorization' : 'Bearer '+ token,
+                'Accept'  : 'application/json'
+              }
+        })
         .then(function(response) {
             console.log("Supplier data:", response.data);
             var order = response.data;
@@ -209,7 +233,12 @@ $(document).ready(function() {
             })
         .then((willSave) => {
             if(willSave) {  
-            axios.put('http://127.0.0.1:8000/api/orders/' + id, formData)
+            axios.put('https://avhapi.onrender.com/api/orders/' + id, formData, {
+                headers:{
+                    'Authorization' : 'Bearer '+ token,
+                    'Accept'  : 'application/json'
+                  }
+            })
         .then(function(response) {
             console.log(response);
             // Optionally close the modal after successful submission
@@ -245,7 +274,12 @@ $(document).ready(function() {
         })
     .then((willDelete) => {
     if(willDelete){
-        axios.delete('http://127.0.0.1:8000/api/orders/' + id)
+        axios.delete('https://avhapi.onrender.com/api/orders/' + id, {
+            headers:{
+                'Authorization' : 'Bearer '+ token,
+                'Accept'  : 'application/json'
+              }
+        })
         .then(function(response) {
         console.log(response);
         // Optionally reload or update the data table
@@ -266,6 +300,11 @@ $(document).ready(function() {
 
     $('#dataTable').on('click', '.btnReceive', function () {
         var id = $(this).data('id');
+        let token = localStorage.getItem('authToken');
+        if (!token) {
+            window.location.href = '404.html';
+            return;
+        }
     
         swal({
             title: "Item received?",
@@ -290,7 +329,12 @@ $(document).ready(function() {
         })
         .then((result) => {
             if (result) {
-                axios.post('http://127.0.0.1:8000/api/order/status/' + id)
+                axios.post('https://avhapi.onrender.com/api/order/status/' + id, {}, {
+                    headers: {
+                        'Authorization': 'Bearer ' + token,
+                        'Accept': 'application/json'
+                    }
+                })
                 .then(function (response) {
                     // Handle success
                     console.log(response.data);
@@ -315,6 +359,7 @@ $(document).ready(function() {
             }
         });
     });
+    
 
     $('#dataTable').on('click','.btnProcessed', function() {
         swal({

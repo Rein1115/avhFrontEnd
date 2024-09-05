@@ -1,5 +1,19 @@
+
+
 $(document).ready(function() {
-    axios.get('http://127.0.0.1:8000/api/dashboard') 
+    var token = localStorage.getItem('authToken');
+
+        if (!token) {
+            window.location.href = '404.html';
+            return;
+        }
+
+    axios.get('https://avhapi.onrender.com/api/dashboard', {
+        headers:{
+          'Authorization' : 'Bearer '+ token,
+          'Accept'  : 'application/json'
+        }
+    }) 
     .then(function(response) {
         // console.log(response);
         var data = response.data;
@@ -16,6 +30,11 @@ $(document).ready(function() {
         console.log(error);
     });
 
+    $('#logoutConf').click(function() {
+        localStorage.removeItem('authToken');
+        window.location.href = 'login.html';
+    });
+
 });
 
 function resetCounter() {
@@ -23,7 +42,19 @@ function resetCounter() {
 }
 
 function fetchAlerts() {
-    axios.get('http://127.0.0.1:8000/api/alert')
+    var token = localStorage.getItem('authToken');
+
+        if (!token) {
+            window.location.href = '404.html';
+            return;
+        }
+
+    axios.get('https://avhapi.onrender.com/api/alert', {
+        headers:{
+          'Authorization' : 'Bearer '+ token,
+          'Accept'  : 'application/json'
+        }
+    })
     .then(function(response) {
         let dataArray = response.data;
 

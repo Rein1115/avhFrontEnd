@@ -1,4 +1,9 @@
 $(function() {
+    var token = localStorage.getItem('authToken');
+            if (!token) {
+                window.location.href = '404.html';
+                return;
+            }
     $('#addCustomer').on('click', function() {
         var formData = {
             custName : $('#custName').val(),
@@ -14,7 +19,12 @@ $(function() {
             })
         .then((willSave) => {
             if(willSave){
-                axios.post('http://127.0.0.1:8000/api/customers', formData)
+                axios.post('https://avhapi.onrender.com/api/customers', formData, {
+                    headers:{
+                        'Authorization' : 'Bearer '+ token,
+                        'Accept'  : 'application/json'
+                      }
+                })
                 .then(function(response) {
                     console.log(response);
                     // Optionally close the modal after successful submission
@@ -34,7 +44,12 @@ $(function() {
     $('#dataTable').on('click','.btnEdit', function(){
         var id = $(this).data('id');
 
-        axios.get('http://127.0.0.1:8000/api/customers/' + id)
+        axios.get('https://avhapi.onrender.com/api/customers/' + id, {
+            headers:{
+                'Authorization' : 'Bearer '+ token,
+                'Accept'  : 'application/json'
+              }
+        })
         .then(function(response) {
             console.log("Customer data:", response.data);
             var customer = response.data;
@@ -59,7 +74,12 @@ $(function() {
             custAdr : $('#EditCustAdr').val()
         }
 
-        axios.put('http://127.0.0.1:8000/api/customers/' + id, formData)
+        axios.put('https://avhapi.onrender.com/api/customers/' + id, formData, {
+            headers:{
+                'Authorization' : 'Bearer '+ token,
+                'Accept'  : 'application/json'
+              }
+        })
         .then(function(response) {
             console.log(response);
             // Optionally close the modal after successful submission
@@ -86,7 +106,12 @@ $(function() {
             })
        .then((willDelete) => {
         if(willDelete){
-            axios.delete('http://127.0.0.1:8000/api/customers/' + id)
+            axios.delete('https://avhapi.onrender.com/api/customers/' + id, {
+                headers:{
+                    'Authorization' : 'Bearer '+ token,
+                    'Accept'  : 'application/json'
+                  }
+            })
            .then(function(response) {
             console.log(response);
             // Optionally reload or update the data table

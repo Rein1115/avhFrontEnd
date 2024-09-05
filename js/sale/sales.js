@@ -1,9 +1,19 @@
 $(document).ready(function(){
+    var token = localStorage.getItem('authToken');
+        if (!token) {
+            window.location.href = '404.html';
+            return;
+        }
     var table = $('#dataTable').DataTable({
         processing: true,
         serverSide: false,
         ajax: function(data, callback, settings) {
-            axios.get('http://127.0.0.1:8000/api/sales')
+            axios.get('https://avhapi.onrender.com/api/sales', {
+                headers:{
+                    'Authorization' : 'Bearer '+ token,
+                    'Accept'  : 'application/json'
+                  }
+            })
                 .then(function(response) {
                     console.log("API response:", response.data);
 
@@ -67,7 +77,12 @@ $(document).ready(function(){
             dangerMode: false,
         }).then((willDelete) => {
             if (willDelete) {
-                axios.delete('http://127.0.0.1:8000/api/sales/' + id)
+                axios.delete('https://avhapi.onrender.com/api/sales/' + id, {
+                    headers:{
+                        'Authorization' : 'Bearer '+ token,
+                        'Accept'  : 'application/json'
+                      }
+                })
                     .then(function(response) {
                         console.log(response);
                         // Optionally reload or update the data table
@@ -90,7 +105,12 @@ $(document).ready(function(){
         var id = $(this).data('id');
         console.log(id);
 
-        axios.get('http://127.0.0.1:8000/api/print/' + id)
+        axios.get('https://avhapi.onrender.com/api/print/' + id, {
+            headers:{
+                'Authorization' : 'Bearer '+ token,
+                'Accept'  : 'application/json'
+              }
+        })
             .then(response => {
                 const saleData = response.data;
                 printReceipt(saleData);

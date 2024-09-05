@@ -1,9 +1,19 @@
 $(document).ready(function() {
+    var token = localStorage.getItem('authToken');
+            if (!token) {
+                window.location.href = '404.html';
+                return;
+            }
     var table = $('#dataTable').DataTable({
         processing: true,
         serverSide: false, // Set to false since we are handling the data ourselves
         ajax: function(data, callback, settings) {
-            axios.get('http://127.0.0.1:8000/api/products')
+            axios.get('https://avhapi.onrender.com/api/products',{
+                headers:{
+                    'Authorization' : 'Bearer '+ token,
+                    'Accept'  : 'application/json'
+                  }
+            })
                 .then(function(response) {
                     // Log the API response
                     console.log("API response:", response.data);
@@ -65,8 +75,12 @@ $(document).ready(function() {
     }
     
     $.ajax({
-        url: 'http://127.0.0.1:8000/api/brands',
+        url: 'https://avhapi.onrender.com/api/brands',
         type: 'GET',
+        headers: {
+                'Authorization' : 'Bearer '+ token,
+                'Accept'  : 'application/json'
+        },
         success: function(response) {
             console.log(response);
     
@@ -83,8 +97,12 @@ $(document).ready(function() {
     });
     
     $.ajax({
-        url: 'http://127.0.0.1:8000/api/customer',
+        url: 'https://avhapi.onrender.com/api/customer',
         type: 'GET',
+        headers: {
+            'Authorization' : 'Bearer '+ token,
+            'Accept'  : 'application/json'
+        },
         success: function(response) {
             console.log(response);
     
@@ -103,7 +121,12 @@ $(document).ready(function() {
     $('#dataTable').on('click','.btnEdit', function(){
         var id = $(this).data('id');
 
-        axios.get('http://127.0.0.1:8000/api/products/' + id)
+        axios.get('https://avhapi.onrender.com/api/products/' + id , {
+            headers: {
+                'Authorization' : 'Bearer '+ token,
+                'Accept'  : 'application/json'
+            }
+        })
         .then(function(response) {
             console.log("Products data:", response.data);
             var order = response.data;
@@ -140,7 +163,12 @@ $(document).ready(function() {
             })
             .then((willSave) => {
                 if(willSave) {  
-                axios.put('http://127.0.0.1:8000/api/products/' + id, formData)
+                axios.put('https://avhapi.onrender.com/api/products/' + id, formData, {
+                    headers: {
+                        'Authorization' : 'Bearer '+ token,
+                        'Accept'  : 'application/json'
+                    }
+                })
                     .then(function(response) {
                         console.log(response);
                         // Optionally close the modal after successful submission
@@ -174,7 +202,12 @@ $(document).ready(function() {
             })
         .then((willDelete) => {
         if(willDelete){
-            axios.delete('http://127.0.0.1:8000/api/products/' + id)
+            axios.delete('https://avhapi.onrender.com/api/products/' + id, {
+                headers: {
+                    'Authorization' : 'Bearer '+ token,
+                    'Accept'  : 'application/json'
+                }
+            })
             .then(function(response) {
             console.log(response);
             // Optionally reload or update the data table
@@ -196,7 +229,12 @@ $(document).ready(function() {
     $('#dataTable').on('click','.btnPurchase', function(){
         var id = $(this).data('id');
 
-        axios.get('http://127.0.0.1:8000/api/sales/' + id)
+        axios.get('https://avhapi.onrender.com/api/sales/' + id, {
+            headers: {
+                'Authorization' : 'Bearer '+ token,
+                'Accept'  : 'application/json'
+            }
+        })
         .then(function(response) {
             console.log(response);
             let prodQty = response.data.prodQty;
@@ -247,6 +285,8 @@ $(document).ready(function() {
             totalSales: $('#totalSales').val(),
             soldDate: $('#soldDate').val(),
         };
+
+        console.log(formData);
     
         swal({
             title: "Confirm",
@@ -257,7 +297,12 @@ $(document).ready(function() {
         })
         .then((willSave) => {
             if (willSave) {
-                axios.post('http://127.0.0.1:8000/api/purchase/', formData)
+                axios.post('https://avhapi.onrender.com/api/purchase', formData, {
+                    headers: {
+                        'Authorization' : 'Bearer '+ token,
+                        'Accept'  : 'application/json'
+                    }
+                })
                 .then(function(response) {
                     console.log(response);
                     var data = response.data;
@@ -282,6 +327,7 @@ $(document).ready(function() {
                             if (okClicked) {
                                 $('#editOrderModal').modal('hide');
                                 $('#dataTable').DataTable().ajax.reload();
+                                window.location.reload();
                             }
                         });
                     }

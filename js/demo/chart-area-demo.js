@@ -28,7 +28,19 @@ function number_format(number, decimals, dec_point, thousands_sep) {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-  axios.get('http://127.0.0.1:8000/api/dashboard')
+    var token = localStorage.getItem('authToken');
+
+        if (!token) {
+            window.location.href = '404.html';
+            return;
+        }
+
+  axios.get('https://avhapi.onrender.com/api/dashboard', {
+    headers:{
+      'Authorization' : 'Bearer '+ token,
+      'Accept'  : 'application/json'
+    }
+  })
       .then(function(response) {
           var data = response.data;
 

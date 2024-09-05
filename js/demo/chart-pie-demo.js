@@ -3,7 +3,17 @@ Chart.defaults.global.defaultFontFamily = 'Nunito', '-apple-system,system-ui,Bli
 Chart.defaults.global.defaultFontColor = '#858796';
 
 $(document).ready(function() {
-  axios.get('http://127.0.0.1:8000/api/quantitysold')
+  var token = localStorage.getItem('authToken');
+    if (!token) {
+      window.location.href = '404.html';
+      return;
+    }
+  axios.get('https://avhapi.onrender.com/api/quantitysold', {
+    headers:{
+      'Authorization' : 'Bearer '+ token,
+      'Accept'  : 'application/json'
+    }
+  })
   .then(function(response) {
     let brandArray = response.data;
 
